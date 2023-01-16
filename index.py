@@ -7,46 +7,14 @@ import os
 import botocore
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
+from aws_lambda_powertools.utilities import parameters
 
 load_dotenv()
 session = boto3.session.Session()
 
-
-def get_secret(secret_name):
-    """
-    Query the secrets manager for the secret values necessary to read from the prod cluster and write to the metrics cluster
-    Parameters:
-    secret_name (string): secretsmanager name to query
-    Returns:
-    string - unencrypted secret value
-    """
-
-    client = session.client(
-        service_name='secretsmanager',
-        region_name=os.environ.get('REGION')
-    )
-    try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
-    except ClientError as e:
-        if e.response['Error']['Code'] == 'DecryptionFailureException':
-            raise e
-        elif e.response['Error']['Code'] == 'InternalServiceErrorException':
-            raise e
-        elif e.response['Error']['Code'] == 'InvalidParameterException':
-            raise e
-        elif e.response['Error']['Code'] == 'InvalidRequestException':
-            raise e
-        elif e.response['Error']['Code'] == 'ResourceNotFoundException':
-            raise e
-    else:
-        if 'SecretString' in get_secret_value_response:
-            return get_secret_value_response['SecretString']
-
-
 if os.environ.get('REDIS_SECRET_NAME'):
-    redis_password = get_secret(os.environ.get('REDIS_SECRET_NAME'))
+    redis_password = parameters.get_secret(
+        os.environ.get('REDIS_SECRET_NAME'), max_age=300)
 else:
     redis_password = os.environ.get('REDIS_PASSWORD')
 
