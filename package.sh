@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -x
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly VENV="resque-scheduler-lambda/.venv"
