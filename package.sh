@@ -4,7 +4,7 @@ set -e
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly VENV="resque-scheduler/venv"
-readonly PYTHON="python3"
+readonly PYTHON="python3.8"
 readonly ZIP_FILE="package.zip"
 readonly SITE_PACKAGES=${VENV}/lib/${PYTHON}/site-packages
 
