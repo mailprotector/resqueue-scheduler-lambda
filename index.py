@@ -6,10 +6,8 @@ import datetime
 import os
 import botocore
 from botocore.exceptions import ClientError
-from dotenv import load_dotenv
 from aws_lambda_powertools.utilities import parameters
 
-load_dotenv()
 session = boto3.session.Session()
 
 if os.environ.get('REDIS_SECRET_NAME'):
