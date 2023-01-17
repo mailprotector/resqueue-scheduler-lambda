@@ -12,7 +12,7 @@ session = boto3.session.Session()
 
 if os.environ.get('REDIS_SECRET_NAME'):
     redis_password = parameters.get_secret(
-        os.environ.get('REDIS_SECRET_NAME'), max_age=300)
+        os.environ.get('REDIS_SECRET_NAME'), max_age=os.environ.get('SECRET_CACHE_AGE', default=300))
 else:
     redis_password = os.environ.get('REDIS_PASSWORD')
 
@@ -34,7 +34,7 @@ def lambda_handler(event, context):
             {
                 'job_class': event,
                 'job_id': id,
-                'queue_name': os.environ.get('SCHEDULED_QUEUE'),
+                'queue_name': os.environ.get('SCHEDULED_QUEUE', default='scheduled'),
                 'priority': None,
                 'enqueued_at': datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
                 'locale': 'en',
