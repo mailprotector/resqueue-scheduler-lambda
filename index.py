@@ -46,8 +46,8 @@ def lambda_handler(event, context):
         ]
     }
 
-    r.rpush(os.environ.get('SCHEDULED_QUEUE'), json.dumps(message_body))
-
+    r.rpush(
+        f"resque:queue:{os.environ.get('SCHEDULED_QUEUE')}", json.dumps(message_body))
 
 # if __name__ == "__main__":
 #     event = "Scheduled::QueueMessageLockJob"
