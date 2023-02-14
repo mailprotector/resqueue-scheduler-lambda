@@ -31,5 +31,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: /__w/resque-scheduler-lambda/resque-scheduler-lambda/resque-scheduler/package.zip
-          asset_name: package.zip
-          asset_content_type: application/zip
