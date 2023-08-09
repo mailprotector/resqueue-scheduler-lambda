@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     id = str(uuid.uuid4())
 
     message_body = {
-        'class': 'ActiveJob::QueueAdapters::ResqueAdapter::JobWrapper',
+        'class': os.environ.get('SCHEDULED_JOB_CLASS'),
         'args': [
             {
                 'job_class': event,
@@ -47,7 +47,7 @@ def lambda_handler(event, context):
     }
 
     r.rpush(
-        f"resque:queue:{os.environ.get('SCHEDULED_QUEUE')}", json.dumps(message_body))
+        f"{os.environ.get('SCHEDULED_QUEUE_PREFIX')}:{os.environ.get('SCHEDULED_QUEUE')}", json.dumps(message_body))
 
 # if __name__ == "__main__":
 #     event = "Scheduled::QueueMessageLockJob"
