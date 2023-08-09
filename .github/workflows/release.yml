@@ -12,10 +12,8 @@ jobs:
     steps:
       - name: Install pre-requisites
         run: |
-          yum install amazon-linux-extras make tar zip git -y
-          amazon-linux-extras enable python3.8
-          yum install python3.8 -y
-          python3.8 -m ensurepip --upgrade
+          yum install make tar zip git -y
+          python3 -m ensurepip --upgrade
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,4 +28,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: /__w/resque-scheduler-lambda/resque-scheduler-lambda/resque-scheduler/package.zip
+          files: /__w/queue-scheduler-lambda/queue-scheduler-lambda/queue-scheduler/package.zip
